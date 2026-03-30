@@ -148,19 +148,6 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
           {
-            echo "## Изменения"
-            echo
-            echo "Релиз: \`$NEXT_TAG\`"
-            echo
-
-            if [ -n "$PREVIOUS_TAG" ]; then
-              echo "Изменения с версии \`$PREVIOUS_TAG\`:"
-              echo
-            else
-              echo "Первый семантический релиз по истории репозитория:"
-              echo
-            fi
-
             if [ -n "$BREAKING" ]; then
               echo "### Несовместимые изменения"
               echo
