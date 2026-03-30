@@ -176,6 +176,7 @@ jobs:
             echo "should_release=$([ -n "$BUMP" ] && echo true || echo false)"
             echo "tag_name=$NEXT_TAG"
             echo "release_name=$NEXT_TAG"
+            echo "apk_name=vkturn-${NEXT_TAG}.apk"
             echo "body_path=release-notes.md"
           } >> "$GITHUB_OUTPUT"
 
@@ -222,12 +223,18 @@ jobs:
             fi
           } > release-notes.md
 
+      - name: Переименование release APK
+        if: steps.meta.outputs.should_release == 'true'
+        env:
+          APK_NAME: ${{ steps.meta.outputs.apk_name }}
+        run: mv dist/app-release.apk "dist/$APK_NAME"
+
       - name: Создание релиза
         if: steps.meta.outputs.should_release == 'true'
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/app-release.apk
+            dist/${{ steps.meta.outputs.apk_name }}
           tag_name: ${{ steps.meta.outputs.tag_name }}
           target_commitish: ${{ github.sha }}
           name: ${{ steps.meta.outputs.release_name }}
