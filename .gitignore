@@ -17,3 +17,6 @@ local.properties
 # Build outputs
 **/build/
 **/release/
+
+# CI/local native binary copied from upstream vk-turn-proxy releases
+/app/src/main/jniLibs/
